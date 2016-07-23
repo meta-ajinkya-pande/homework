@@ -1,0 +1,22 @@
+1.Linux Commands used in git
+
+ls -> used to check files and folder in working dir
+ls -l -> used to check files and folder in working dir  with mode type
+mv source destination -> move the files from the source to destination
+mkdir dirname -> to make the directory in working dir
+rm -r dirname -> to remove the directory
+rm -rf dirname -> to remove the directory fully
+
+2.Complusory git commands
+
+git init -> to initiate the repository
+git checkout branchname -> to move to that branch
+git branch -> to ckeck no of branches and working branch
+git checkout - b branchname -> to create new branch
+git add <directory path> -> to show changes in the local repository
+git commit -m "<message>" -> to commit the changes in local repository
+git push origin <branch name> -> to push changes to git repository
+
+3.Special git commands
+
+git commit --amend -> to change the message of last commit
