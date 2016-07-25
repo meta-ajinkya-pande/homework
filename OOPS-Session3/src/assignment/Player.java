@@ -19,14 +19,14 @@ public class Player {
 		System.out.println(playerName() + " chance to play:");
 		System.out.println();
 		try {
-			System.out.println("Enter the row");
+			System.out.println("Enter the row value(0-2)");
 			String srow = sc.nextLine();
 			
 			// Validate the row is correct input or not
 			srow = rowValidate(srow, sc);
 			int row = Integer.parseInt(srow);
 			
-			System.out.println("Enter the col");
+			System.out.println("Enter the col value(0-2)");
 			String scol = sc.nextLine();
 			
 			// Validate the col is correct is not
@@ -59,7 +59,7 @@ public class Player {
 				System.out.println("Enter correct row");
 				srow = sc.nextLine();
 				if (srow.length() == 1 || srow.codePointAt(0) > 47
-						|| srow.codePointAt(0) <= 51) {
+						&& srow.codePointAt(0) < 51) {
 					break;
 				}
 			}
@@ -71,10 +71,10 @@ public class Player {
 		if (scol.length() > 1 || scol.codePointAt(0) <= 47
 				|| scol.codePointAt(0) > 51) {
 			while (true) {
-				System.out.println("Enter correct row");
+				System.out.println("Enter correct col");
 				scol = sc.nextLine();
 				if (scol.length() == 1 || scol.codePointAt(0) > 47
-						|| scol.codePointAt(0) <= 51) {
+						&& scol.codePointAt(0) < 51) {
 					break;
 				}
 			}
