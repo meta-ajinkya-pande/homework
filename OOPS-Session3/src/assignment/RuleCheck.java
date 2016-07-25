@@ -73,7 +73,8 @@ public class RuleCheck {
 	}
 	
 	public static void checkLocation(int row,int col){
-		if(State.getGridContent(row, col) == ' '){
+		if(State.getGridContent(row, col) == ' ' || State.getGridContent(row,col) == 'X'
+			|| State.getFridContent(row,col) == 'O'){
 			RuleCheck.setLocation(false);
 		}
 		else{
