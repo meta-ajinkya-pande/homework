@@ -17,20 +17,25 @@ public class Player {
 	public void makeMove(Scanner sc){
 		System.out.println(playerName() + " chance to play:");
 		System.out.println();
-		System.out.println("Enter the row");
-		int row =sc.nextInt();
-		System.out.println("Enter the col");
-		int col = sc.nextInt();
-		while(RuleCheck.isLocation()){
-			// Checking that grid[row][col] is empty or not
+		try{
+			System.out.println("Enter the row");
+			int row =sc.nextInt();
+			System.out.println("Enter the col");
+			int col = sc.nextInt();
+			RuleCheck.checkLocation(row,col);
+			while(RuleCheck.isLocation()){
+				// Checking that grid[row][col] is empty or not
 				System.out.println("Please Enter correct row and col");
 				System.out.println("Enter row:");
 				row = sc.nextInt();
 				System.out.println("Enter col:");
 				col = sc.nextInt();
 				RuleCheck.checkLocation(row,col);
+			}
+			State.setGrid(row, col, symbol);
+			RuleCheck.checkWinner(row, col, symbol);
+		}catch(Exception e){
+			makeMove(sc);
 		}
-		State.setGrid(row, col, symbol);
-		RuleCheck.checkWinner(row, col, symbol);
 	}
 }
