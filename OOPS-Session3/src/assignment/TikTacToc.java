@@ -25,5 +25,8 @@ public class TikTacToc {
 			Turn.setTurnCount();
 			Turn.setPlayerTurn();
 		}
+		if(Turn.getPlayer() == 9){
+			System.out.println("Match is draw !!!!!!");
+		}
 	}
 }
