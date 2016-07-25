@@ -13,35 +13,58 @@ import java.util.Scanner;
  */
 public class CompositeMenu extends Menu {
 	private String parent;
-	private List<String> menulist = new ArrayList<String>();
+	private List<Menu> menulist = new ArrayList<Menu>();
 	private String menuname;
 
 	@Override
-	public void actionPerformed(Scanner sc) {
+	public void actionPerformed() {
 		// TODO Auto-generated method stub
+		System.out.println(parent);
+		System.out.println("");
+		int i = 1;
+		for (Menu menu : menulist) {
+			System.out.println(i + " : " + menu.getMenuName());
+			i++;
+		}
+	}
+
+	public void printList(int index,Scanner sc) {
+		System.out.println(parent);
+		menulist.get(index).actionPerformed();
+		System.out.println("Enter your Choice");
+		int choice = sc.nextInt();
+		sc.nextLine();
+		printList(choice, sc);
+	}
+
+	public void generateList(Scanner sc) {
 		int no_items = 0;
-		try{
-			System.out.println("Enter The no of items");
+		try {
+			System.out.println("Enter The no of items for "+getMenuName()+" menu");
 			no_items = sc.nextInt();
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			sc.nextLine();
 		}
 		for (int i = 0; i < no_items; i++) {
-			System.out.println("Enter item");
+			System.out.println("Enter item for "+ getMenuName() + " menu");
 			String name = sc.nextLine();
 			System.out.println("It is a Composite Menu ?");
 			String ans = sc.nextLine();
-			if(ans.equalsIgnoreCase("Y")){
+			if (ans.equalsIgnoreCase("Y")) {
 				CompositeMenu menu = new CompositeMenu();
 				menu.setMenuName(name);
 				menu.setParent(this.getMenuName());
-				menu.actionPerformed(sc);
+				menu.generateList(sc);
+				menulist.add(menu);
+			} else {
+				LeafMenu menu = new LeafMenu();
+				menu.setMenuName(name);
+				menu.setParent(this.menuname);
+				menulist.add(menu);
 			}
-			menulist.add(name);
 		}
-
 	}
 
 	@Override
@@ -56,16 +79,12 @@ public class CompositeMenu extends Menu {
 		this.parent = parentName;
 	}
 
-	@Override
-	public void addList(String[] list) {
+	public void addList(Menu menu) {
 		// TODO Auto-generated method stub
-		for (int i = 0; i < list.length; i++) {
-			menulist.add(list[i]);
-		}
+		menulist.add(menu);
 	}
 
-	@Override
-	public List<String> getList() {
+	public List<Menu> getList() {
 		// TODO Auto-generated method stub
 		return menulist;
 	}
