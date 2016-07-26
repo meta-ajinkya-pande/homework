@@ -2,11 +2,8 @@ package assignment;
 
 public class ComputerAI {
 	private char symbol;
-	private int[] freelocation;
-
 	public ComputerAI(char symbol) {
 		this.symbol = symbol;
-		freelocation = new int[9];
 	}
 
 	public void makePlay() {

@@ -1,7 +1,12 @@
 package assignment;
 
 import java.util.Scanner;
-
+/**
+ * 
+ * @author Ajinkya Pande
+ * @see if player makes moves then it call a method makeMove
+ *
+ */
 public class Player {
 
 	private char symbol;
@@ -10,11 +15,16 @@ public class Player {
 		this.symbol = symbol;
 	}
 
-	// Returning the player name
+	/**
+	 * @return player name which player is playing
+	 */
 	public String playerName() {
 		return "Player " + symbol;
 	}
 
+	/**
+	 * @param sc is scanner which is used to take input.
+	 */
 	public void makeMove(Scanner sc) {
 		System.out.println(playerName() + " chance to play:");
 		System.out.println();
@@ -39,11 +49,11 @@ public class Player {
 				System.out.println("Please Enter correct your location:");
 				System.out.println("Enter row:");
 				srow = sc.nextLine();
-				srow = rowValidate(srow, sc);
+				srow = rowValidate(srow, sc);	// validate that it is correct or not
 				row = Integer.parseInt(srow);
 				System.out.println("Enter col:");
 				scol = sc.nextLine();
-				scol = colValidate(scol, sc);
+				scol = colValidate(scol, sc); // validate that it is correct or not
 				col = Integer.parseInt(scol);
 				RuleCheck.checkLocation(row, col);
 			}
@@ -52,6 +62,11 @@ public class Player {
 		} catch (Exception e) {}
 	}
 	
+	/**
+	 * @param srow is the String type of row if user input wrong inputs then it should ask again until it gives correct input row
+	 * @param sc is scanner object that takes the input from console
+	 * @return valid String row 
+	 */
 	private String rowValidate(String srow,Scanner sc){
 		if (srow.length() > 1 || srow.codePointAt(0) <= 47
 				|| srow.codePointAt(0) > 51) {
@@ -67,6 +82,11 @@ public class Player {
 		return srow;
 	}
 	
+	/**
+	 * @param scol is the String type of column if user input wrong inputs then it should ask again until it gives correct input column
+	 * @param sc is scanner object that takes the input from console
+	 * @return valid String column
+	 */
 	private String colValidate(String scol , Scanner sc){
 		if (scol.length() > 1 || scol.codePointAt(0) <= 47
 				|| scol.codePointAt(0) > 51) {
