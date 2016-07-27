@@ -1,51 +1,135 @@
 package assignment1;
 
 import java.util.ArrayList;
+import java.util.List;
 
+// Node class to create a node and add entities to nodes
 public class Node {
-	private ArrayList<Connection> friends;
-	private String label;
+
+	// list of connections
+	private List<Connection> friend;
 	
-	public Node(String label){
-		this.label = label;
-		this.friends = new ArrayList<Connection>(); 
+	private Entity entity;
+
+	// constructor of node to set variables	
+	public Node(Entity entity) {
+
+		this.entity = entity;
+		this.friend = new ArrayList<Connection>();
 	}
-	
-	public void addFriends(Connection connection){
-		if(this.friends.contains(connection)){
+
+	/**
+	 * @param connection
+	 * 
+	 * add node to list connection
+	 */
+	public void addFriend(Connection connection) {
+
+		if (this.friend.contains(connection)) {
+
 			return;
 		}
-		this.friends.add(connection);
+
+		this.friend.add(connection);
+	}
+
+	/**
+	 * 
+	 * @param other
+	 * @return true or false
+	 * 
+	 * checks if list already contains the node
+	 */
+	public boolean containsFriend(Connection other) {
+
+		return this.friend.contains(other);
+
+	}
+
+	/**
+	 * 
+	 * @param index
+	 * @return connection object at particular index
+	 */
+	public Connection getFriends(int index) {
+
+		return this.friend.get(index);
+	}
+
+	/**
+	 * @param index
+	 * @return connection object at particular index
+	 * 
+	 *  removes connection at particular index
+	 */
+	public Connection removeConnection(int index) {
+
+		return this.friend.remove(index);
+	}
+
+	/**
+	 * @param connection
+	 * 
+	 * remove friend connection using connection object
+	 */
+	public void removeFriend(Connection connection) {
+
+		this.friend.remove(connection);
 	}
 	
-	public boolean ContainsFriends(Connection connection){
-		return friends.contains(connection);
+	/**
+	 * 
+	 * @return size of friend connections
+	 */
+	public int getFriendsCount() {
+
+		return this.friend.size();
 	}
 	
-	public Connection getConnection(int index){
-		return friends.get(index);
+	/**
+	 * 
+	 * @return entity of either person or organization
+	 */
+	public Entity getEntity() {
+
+		return this.entity;
 	}
 	
-	public Connection removefriend(int index){
-		return this.friends.remove(index);
+	/**
+	 * returns name of entity
+	 */
+	public String toString() {
+
+		return entity.getName();
 	}
 	
-	public int countFriends(){
-		return this.friends.size();
+	/** 
+	 * @return hashcode of entity
+	 */
+	public int hashcode() {
+
+		return this.entity.hashCode();
 	}
 	
-	public int hashCode(){
-		return this.label.hashCode();
-	}
-	
-	public boolean equals(Object other){
-		if(!(other instanceof Node)){
+	/**
+	 * compares one object with other
+	 */
+	public boolean equals(Object other) {
+
+		if (!(other instanceof Node)) {
+
 			return false;
 		}
-		return this.label.equals((Node)other);
+
+		Node node = (Node) other;
+
+		return this.entity.equals(node);
 	}
 	
-	public ArrayList<Connection> getFriends(){
-		return new ArrayList<Connection>(this.friends);
+	/**
+	 * @return array list of friends
+	 */
+	public ArrayList<Connection> getFriends() {
+		return new ArrayList<Connection>(this.friend);
 	}
 }
