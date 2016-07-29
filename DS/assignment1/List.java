@@ -2,7 +2,7 @@ package assignment1;
 
 public interface List<E> {
 	public boolean add(E element);
-	public void add(int index,E element);
+	public boolean add(int index,E element);
 	public void clear();
 	public boolean contains(E o);
 	public boolean equals(Object o);

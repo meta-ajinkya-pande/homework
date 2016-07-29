@@ -1,5 +1,7 @@
 package assignment1;
 
+import java.util.Comparator;
+
 public class SingleLinkedList<E> implements List<E> {
 
 	Node<E> first;
@@ -24,25 +26,28 @@ public class SingleLinkedList<E> implements List<E> {
 	}
 
 	@Override
-	public void add(int index, E element) {
+	public boolean add(int index, E element) {
 		try {
 			Node<E> node = new Node<E>();
 			node.setElement(element);
-			if (index >= size()) {
+			if (index > size()) {
 				throw new IllegalArgumentException();
 			}
 			int counter = 0;
 			Node<E> temp = first;
-			while (counter != index - 1 && temp.getNext() != null) {
+			while (counter < index - 1 && temp.getNext() != null) {
 				temp = temp.getNext();
 				counter++;
 			}
 			node.setNext(temp.getNext());
 			temp.setNext(node);
+			return true;
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
+			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 
@@ -87,24 +92,24 @@ public class SingleLinkedList<E> implements List<E> {
 	@Override
 	public E remove(int index) {
 		E temp = null;
-		Node<E> node = first , temp1;
+		Node<E> node = first, temp1;
 		if (index == 0) {
 			temp = node.getElement();
 			first = node.getNext();
 		} else {
 			int counter = 0;
-			while (node.getNext() != null && counter < index -1) {
+			while (node.getNext() != null && counter < index - 1) {
 				counter++;
 				node = node.getNext();
 			}
-			if(index == size()-1){
+			if (index == size() - 1) {
 				last = node;
 			}
 			temp1 = node.getNext();
 			temp = temp1.getElement();
 			node.setNext(temp1.getNext());
 			temp1 = null;
-			
+
 		}
 		return temp;
 	}
@@ -142,17 +147,16 @@ public class SingleLinkedList<E> implements List<E> {
 
 	@Override
 	public int removeByValue(E value) {
-		int index =0;
-		Node<E> node = first,prv = null;
-		while(node!=null){
-			if(node.getElement() == value){
-				if(index == 0){
+		int index = 0;
+		Node<E> node = first, prv = first;
+		while (node != null) {
+			if (node.getElement() == value) {
+				if (index == 0) {
 					first = first.getNext();
-				}else if(index == size()-1){
+				} else if (index == size()-1 ) {
 					last = prv;
-					prv.setNext(node.getNext());
-				}
-				else{
+					prv.setNext(null);
+				} else {
 					prv.setNext(node.getNext());
 				}
 				node = null;
@@ -162,7 +166,7 @@ public class SingleLinkedList<E> implements List<E> {
 			index++;
 			node = node.getNext();
 		}
-		if(index > size()){
+		if (index > size()) {
 			throw new IllegalArgumentException();
 		}
 		return index;
@@ -170,12 +174,12 @@ public class SingleLinkedList<E> implements List<E> {
 
 	@Override
 	public void reverse() {
-		Node<E> prv,curr,next;
+		Node<E> prv, curr, next;
 		prv = null;
 		curr = first;
-		last =first;
+		last = first;
 		next = first.getNext();
-		while(curr.getNext()!=null){
+		while (curr.getNext() != null) {
 			curr.setNext(prv);
 			prv = curr;
 			curr = next;
@@ -184,59 +188,69 @@ public class SingleLinkedList<E> implements List<E> {
 		curr.setNext(prv);
 		first = curr;
 	}
-	
-	public void sort(){
-		doMergeSort(0, size());
-	}
 
 	@Override
 	public E getElement(int index) {
-		Node<E>node = first;
-		int counter =0;
-		E value;
-		while(node.getNext()!=null && counter < index){
-			node= node.getNext();
+		if (index > size()) {
+			throw new IllegalArgumentException();
 		}
-		value = node.getNext().getElement();
+		Node<E> node = first;
+		int counter = 0;
+		E value;
+		while (node.getNext() != null && counter < index) {
+			node = node.getNext();
+		}
+		value = node.getElement();
 		return value;
 	}
-	
-	    private void doMergeSort(int lowerIndex, int higherIndex) {
-	         
-	        if (lowerIndex < higherIndex) {
-	            int middle = lowerIndex + (higherIndex - lowerIndex) / 2;
-	            // Below step sorts the left side of the array
-	            doMergeSort(lowerIndex, middle);
-	            // Below step sorts the right side of the array
-	            doMergeSort(middle + 1, higherIndex);
-	            // Now merge both sides
-	            mergeParts(lowerIndex, middle, higherIndex);
-	        }
-	    }
-	 
-	    private void mergeParts(int lowerIndex, int middle, int higherIndex) {
-	 
-	        for (int i = lowerIndex; i <= higherIndex; i++) {
-	            tempMergArr[i] = array[i];
-	        }
-	        int i = lowerIndex;
-	        int j = middle + 1;
-	        int k = lowerIndex;
-	        while (i <= middle && j <= higherIndex) {
-	            if (tempMergArr[i] <= tempMergArr[j]) {
-	                array[k] = tempMergArr[i];
-	                i++;
-	            } else {
-	                array[k] = tempMergArr[j];
-	                j++;
-	            }
-	            k++;
-	        }
-	        while (i <= middle) {
-	            array[k] = tempMergArr[i];
-	            k++;
-	            i++;
-	        }
-	 
-	    }
+
+	public boolean sort() {
+		SingleLinkedList<E> sortedArray = new SingleLinkedList<E>();
+		Comparator<E> c = new Comparator<E>() {
+			@Override
+			public int compare(E arg0, E arg1) {
+				int last = arg0.toString().compareTo(arg1.toString());
+				return last;
+			}
+		};
+		mergeSort(0, size() - 1, sortedArray, c);
+		return true;
+	}
+
+	private void mergeSort(int low, int high, SingleLinkedList<E> sortedArray,
+			Comparator<E> c) {
+		if (low < high) {
+			int mid = low + (high - low) / 2;
+			mergeSort(low, mid, sortedArray, c);
+			mergeSort(mid + 1, high, sortedArray, c);
+			merge(low, mid, high, sortedArray, c);
+		}
+	}
+
+	private void merge(int low, int mid, int high,
+			SingleLinkedList<E> sortedArray, Comparator<E> c) {
+		for (int i = low; i <= high; i++) {
+			sortedArray.add(this.getElement(i));
+		}
+		int i = low;
+		int j = mid + 1;
+		int k = low;
+		while (i <= mid && j <= high) {
+			if (c.compare((E) sortedArray.getElement(j),
+					(E) sortedArray.getElement(i)) > 0) {
+				this.add(k, sortedArray.getElement(i));
+				i++;
+			} else {
+				this.add(k, sortedArray.getElement(j));
+				j++;
+			}
+			k++;
+		}
+		while (i <= mid) {
+			this.add(k, sortedArray.getElement(i));
+			k++;
+			i++;
+		}
+	}
+
 }

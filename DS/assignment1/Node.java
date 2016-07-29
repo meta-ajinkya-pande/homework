@@ -1,7 +1,7 @@
 package assignment1;
 
 public class Node<E> {
-	
+
 	private E element;
 	private Node<E> next;
 	private Node<E> prv;
@@ -29,5 +29,4 @@ public class Node<E> {
 	public void setPrevious(Node<E> last) {
 		this.prv = last;
 	}
-	
 }
