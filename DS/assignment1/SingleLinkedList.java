@@ -1,12 +1,11 @@
 package assignment1;
 
-import java.util.Comparator;
-
 public class SingleLinkedList<E> implements List<E> {
 
-	Node<E> first;
-	Node<E> last;
+	Node<E> first; // this is head of the link list
+	Node<E> last; // this is the last pointer to link lists
 
+	// It add the element into link list  at last position
 	@Override
 	public boolean add(E element) {
 		try {
@@ -25,13 +24,22 @@ public class SingleLinkedList<E> implements List<E> {
 		}
 	}
 
+	// It add the element into link list by index position 
 	@Override
 	public boolean add(int index, E element) {
+		if (index > size()) {
+			throw new IllegalArgumentException();
+		}
 		try {
 			Node<E> node = new Node<E>();
 			node.setElement(element);
-			if (index > size()) {
-				throw new IllegalArgumentException();
+			if (index == 0) {
+				add(element);
+			} else if (index == size()) {
+				last.setNext(node);
+				last = node;
+				node.setNext(null);
+				return true;
 			}
 			int counter = 0;
 			Node<E> temp = first;
@@ -51,6 +59,7 @@ public class SingleLinkedList<E> implements List<E> {
 		}
 	}
 
+	// It clears all the link list
 	@Override
 	public void clear() {
 		Node<E> temp = first;
@@ -67,6 +76,7 @@ public class SingleLinkedList<E> implements List<E> {
 		last = null;
 	}
 
+	// it checks that link list contains that value or not
 	@Override
 	public boolean contains(E o) {
 		Node<E> node = new Node<E>();
@@ -81,6 +91,7 @@ public class SingleLinkedList<E> implements List<E> {
 		return false;
 	}
 
+	// it check whether the list is empty or not
 	@Override
 	public boolean isEmpty() {
 		if (first == null) {
@@ -89,6 +100,7 @@ public class SingleLinkedList<E> implements List<E> {
 		return false;
 	}
 
+	// It remove the element by its index position
 	@Override
 	public E remove(int index) {
 		E temp = null;
@@ -114,6 +126,7 @@ public class SingleLinkedList<E> implements List<E> {
 		return temp;
 	}
 
+	// This return the size of link list
 	@Override
 	public int size() {
 		int counter = 0;
@@ -125,6 +138,7 @@ public class SingleLinkedList<E> implements List<E> {
 		return counter;
 	}
 
+	// This function return the link list in object array
 	@Override
 	public Object[] toArray() {
 		Object[] array = new Object[this.size()];
@@ -137,6 +151,7 @@ public class SingleLinkedList<E> implements List<E> {
 		return array;
 	}
 
+	// It Print the whole link list
 	public void printLinkedList() {
 		Node<E> node = first;
 		while (node != null) {
@@ -145,6 +160,8 @@ public class SingleLinkedList<E> implements List<E> {
 		}
 	}
 
+	// It remove the element according to first element matches the value and
+	// return the index position
 	@Override
 	public int removeByValue(E value) {
 		int index = 0;
@@ -153,7 +170,7 @@ public class SingleLinkedList<E> implements List<E> {
 			if (node.getElement() == value) {
 				if (index == 0) {
 					first = first.getNext();
-				} else if (index == size()-1 ) {
+				} else if (index == size() - 1) {
 					last = prv;
 					prv.setNext(null);
 				} else {
@@ -172,6 +189,7 @@ public class SingleLinkedList<E> implements List<E> {
 		return index;
 	}
 
+	// This function reverse the link list
 	@Override
 	public void reverse() {
 		Node<E> prv, curr, next;
@@ -189,6 +207,7 @@ public class SingleLinkedList<E> implements List<E> {
 		first = curr;
 	}
 
+	// This function return the element according to its index
 	@Override
 	public E getElement(int index) {
 		if (index > size()) {
@@ -199,58 +218,56 @@ public class SingleLinkedList<E> implements List<E> {
 		E value;
 		while (node.getNext() != null && counter < index) {
 			node = node.getNext();
+			counter++;
 		}
 		value = node.getElement();
 		return value;
 	}
 
+	// It uses merge sort to sort two link list
 	public boolean sort() {
-		SingleLinkedList<E> sortedArray = new SingleLinkedList<E>();
-		Comparator<E> c = new Comparator<E>() {
-			@Override
-			public int compare(E arg0, E arg1) {
-				int last = arg0.toString().compareTo(arg1.toString());
-				return last;
-			}
-		};
-		mergeSort(0, size() - 1, sortedArray, c);
+		first = MergeSort(first);
 		return true;
 	}
 
-	private void mergeSort(int low, int high, SingleLinkedList<E> sortedArray,
-			Comparator<E> c) {
-		if (low < high) {
-			int mid = low + (high - low) / 2;
-			mergeSort(low, mid, sortedArray, c);
-			mergeSort(mid + 1, high, sortedArray, c);
-			merge(low, mid, high, sortedArray, c);
+	// It divides the link list into sub link list
+	public Node<E> MergeSort(Node<E> headOriginal) {
+		if (headOriginal == null || headOriginal.getNext() == null)
+			return headOriginal;
+		Node<E> a = headOriginal;
+		Node<E> b = headOriginal.getNext();
+		while ((b != null) && (b.getNext() != null)) {
+			headOriginal = headOriginal.getNext();
+			b = (b.getNext()).getNext();
 		}
+		b = headOriginal.getNext();
+		headOriginal.setNext(null);
+		return merge(MergeSort(a), MergeSort(b));
 	}
 
-	private void merge(int low, int mid, int high,
-			SingleLinkedList<E> sortedArray, Comparator<E> c) {
-		for (int i = low; i <= high; i++) {
-			sortedArray.add(this.getElement(i));
-		}
-		int i = low;
-		int j = mid + 1;
-		int k = low;
-		while (i <= mid && j <= high) {
-			if (c.compare((E) sortedArray.getElement(j),
-					(E) sortedArray.getElement(i)) > 0) {
-				this.add(k, sortedArray.getElement(i));
-				i++;
+	// it merge the two link list in sorted manner
+	public Node<E> merge(Node<E> a, Node<E> b) {
+		Node<E> temp = new Node<E>();
+		Node<E> head = temp;
+		Node<E> c = head;
+		while ((a != null) && (b != null)) {
+			if (a.getElement().toString().compareTo(b.getElement().toString()) <= 0) {
+				c.setNext(a);
+				c = a;
+				a = a.getNext();
 			} else {
-				this.add(k, sortedArray.getElement(j));
-				j++;
+				c.setNext(b);
+				c = b;
+				b = b.getNext();
 			}
-			k++;
 		}
-		while (i <= mid) {
-			this.add(k, sortedArray.getElement(i));
-			k++;
-			i++;
-		}
+		c.setNext((a == null) ? b : a);
+		return head.getNext();
 	}
 
+	// It Join two link list
+	public void joinTwoList(SingleLinkedList<E> list2) {
+		this.last.setNext(list2.first);
+		last = list2.last;
+	}
 }

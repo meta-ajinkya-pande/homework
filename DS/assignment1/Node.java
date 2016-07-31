@@ -29,4 +29,8 @@ public class Node<E> {
 	public void setPrevious(Node<E> last) {
 		this.prv = last;
 	}
+	
+	public String toString(){
+		return element.toString();
+	}
 }

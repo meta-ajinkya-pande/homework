@@ -1,9 +1,8 @@
 package assignment1;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestSingleLinkedList {
@@ -52,16 +51,28 @@ public class TestSingleLinkedList {
 		
 		assertEquals(true, linklist.contains(25));
 	}
-	@Ignore
+
 	@Test
 	public void testsort(){
 		assertEquals(true, linklist.add(30));
 		assertEquals(true, linklist.add(23));
-		assertEquals(true, linklist.add(1, 25));
+		assertEquals(true, linklist.add(25));
 		assertEquals(true ,linklist.sort());
+		
 		assertEquals(23, (int)linklist.getElement(0));
+		
 		assertEquals(25, (int)linklist.getElement(1));
+		
 		assertEquals(30, (int)linklist.getElement(2));
+	}
+	
+	@Test
+	public void testIsEmpty(){
+		assertEquals(true, linklist.add(30));
+		assertEquals(true, linklist.add(23));
+		assertEquals(0, linklist.removeByValue(30));
+		assertEquals(0, linklist.removeByValue(23));
+		assertEquals(true, linklist.isEmpty());
 		
 	}
 }

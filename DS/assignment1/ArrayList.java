@@ -24,6 +24,8 @@ public class ArrayList<E> implements List<E> {
 		this.Array = newArray;
 	}
 
+	// Merge sort is applied to sort the array
+	// It divides array into sub arrays
 	private void mergeSort(int low, int high, Object[] sortedArray,
 			Comparator<E> c) {
 		if (low < high) {
@@ -35,6 +37,7 @@ public class ArrayList<E> implements List<E> {
 
 	}
 
+	// It merge and sort the two arrays and return final sorted array
 	@SuppressWarnings("unchecked")
 	private void merge(int low, int mid, int high, Object[] sortedArray,
 			Comparator<E> c) {
@@ -159,6 +162,7 @@ public class ArrayList<E> implements List<E> {
 		return this.Array;
 	}
 
+	// Removing the element by finding its value in array
 	@Override
 	public int removeByValue(E value) {
 		boolean flag = false;
@@ -177,7 +181,8 @@ public class ArrayList<E> implements List<E> {
 		}
 		return index;
 	}
-
+	
+	// reverse the array
 	@Override
 	public void reverse() {
 		Object[] reverseArray = new Object[size()];
@@ -194,6 +199,7 @@ public class ArrayList<E> implements List<E> {
 		return (E) Array[index];
 	}
 
+	// For sorting the array
 	public void sort() {
 		Object[] sortedArray = new Object[size()];
 		Comparator<E> c = new Comparator<E>() {
@@ -206,6 +212,7 @@ public class ArrayList<E> implements List<E> {
 		mergeSort(0, size() - 1, sortedArray, c);
 	}
 
+	// For printing the whole array
 	@SuppressWarnings("unchecked")
 	public void printArrayList() {
 		for (int i = 0; i < size(); i++) {
