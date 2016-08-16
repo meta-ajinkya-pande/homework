@@ -15,11 +15,14 @@ public class Main {
 			System.out.println("3: exit");
 			int choice = scan.nextInt();
 			if(choice ==1)
-				obj.insertJobs();
+				obj.insertJobs(scan);
 			else if(choice == 2)
 				obj.printService();
-			else if (choice >= 3) {
+			else if (choice == 3) {
 				break;
+			}
+			else{
+				System.out.println("\nEnter correct choice\n");
 			}
 		}
 		scan.close();
