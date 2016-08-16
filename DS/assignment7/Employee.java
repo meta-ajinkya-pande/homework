@@ -3,10 +3,17 @@ package assignment7;
 import java.util.Comparator;
 
 public class Employee implements Comparable<Employee> {
-	private int empId;
-	private String name;
-	private String address;
+	
+	private int empId; // employee id 
+	private String name; // employee name
+	private String address; // employee address
 
+	/**
+	 * Constructor to set empid, name, address
+	 * @param empId is employee id
+	 * @param name is employee name
+	 * @param address is the employee address
+	 */
 	public Employee(int empId, String name, String address) {
 		setAddress(address);
 		setName(name);
@@ -22,40 +29,35 @@ public class Employee implements Comparable<Employee> {
 	}
 
 	/**
-	 * Getter empId
-	 * @return
+	 * To get the employee Id
 	 */
 	public int getEmpId() {
 		return empId;
 	}
 
 	/**
-	 * Setter name
-	 * @param name
+	 * @param name set the employee name
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * Getter name
-	 * @return
+	 * @return name of the employee
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * Setter Address
-	 * @param address
+	 * @param address set the address of employee
 	 */
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
 	/**
-	 * Getter Address
-	 * @return
+	 * @return address of the employee
 	 */
 	public String getAddress() {
 		return address;
